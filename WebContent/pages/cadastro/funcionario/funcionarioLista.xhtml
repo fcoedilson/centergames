@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+	  	  <div id="content">
+	  	  <h:form>
+	  	  	<p:fieldset legend="Funcionário">
+	  	  		<p:commandButton value="Novo" action="#{funcBean.novo}" icon="ui-icon-plus" ajax="false" style="float:right;"/>
+		  	  	<p:dataTable id="tablefunc" var="func" value="#{funcBean.lista}" 
+		  	  		paginator="true" rows="25" rowIndexVar="index">
+		  	  		<p:column>  
+			            <f:facet name="header">Nº</f:facet>  
+			            <h:outputText value="#{index+1}" />  
+			        </p:column>  
+			        <p:column sortBy="#{func.nome}">  
+			            <f:facet name="header">Nome</f:facet>  
+			            <h:outputText value="#{func.nome}"/>  
+			        </p:column>
+			        <p:column sortBy="#{func.cargo.descricao}">  
+			            <f:facet name="header">Cargo</f:facet>  
+			            <h:outputText value="#{func.cargo.descricao}"/>
+			        </p:column>
+			        <p:column sortBy="#{func.endereco}">  
+			            <f:facet name="header">Endereço</f:facet>  
+			            <h:outputText value="#{func.endereco}"/>  
+			        </p:column>
+			        <p:column sortBy="#{func.telefone}">  
+			            <f:facet name="header">Telefone</f:facet>  
+			            <h:outputText value="#{func.telefone}"/>  
+			        </p:column>
+			        <p:column style="width:40px;" headerText="Editar">
+			        	<p:commandButton action="#{funcBean.editar}" icon="ui-icon-pencil" title="Clique para Editar" ajax="false">
+			        		<f:ajax event="click" execute="@form"></f:ajax>
+			        		<f:setPropertyActionListener value="#{func}" target="#{funcBean.funcionario}" />
+			        	</p:commandButton>
+			        </p:column>
+			        <p:column style="width:40px" headerText="Excluir">
+			        	<p:commandButton update="tablefunc" action="#{funcBean.excluir}" icon="ui-icon-trash" ajax="false">
+			        		<f:setPropertyActionListener value="#{func}" target="#{funcBean.funcionario}" />
+			        	</p:commandButton>	
+			        </p:column>
+			        
+			         <p:column style="width:40px" headerText="Ver">  
+		             	 <p:commandButton update="tablefunc" icon="ui-icon-search" title="View">  
+		                     <f:setPropertyActionListener value="#{func}" target="#{funcBean.funcionario}" />  
+		                 </p:commandButton>  
+			        </p:column>  
+			        
+			    </p:dataTable>  
+		    </p:fieldset>
+		    </h:form>
+	  	  </div>
+  	  </ui:define>
+</ui:composition>
+</html>

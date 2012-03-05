@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/security
+	   http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- Indica ao spring que as configurações dos beans são por Resanotações -->
+	<context:annotation-config />
+
+	<!-- Necessário para o Spring 3 encontrar as classes anotadas -->
+	<context:component-scan base-package="br.com.centergames"
+		annotation-config="true" use-default-filters="true" />
+
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Configura a SessionFactory do Hibernate -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="packagesToScan" value="br.com.centergames" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+				<prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/centergames</prop>
+				<prop key="hibernate.connection.username">centergames</prop>
+				<prop key="hibernate.connection.password">centergames</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">update</prop>  -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- configuração c3p0 -->
+				<prop key="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider
+				</prop>
+				<prop key="c3p0.acquire_increment">1</prop>
+				<prop key="c3p0.idle_test_period">100</prop>
+				<!-- segundos -->
+				<prop key="c3p0.max_size">100</prop>
+				<prop key="c3p0.max_statements">0</prop>
+				<prop key="c3p0.min_size">10</prop>
+				<prop key="c3p0.timeout">100</prop>
+				<!-- segundos -->
+				<!-- Habilita o cache de segundo nivel e o armazenamento de consultas -->
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- Cria o bean hibernateTemplate e injeta a sessionFactory -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+
+	<!-- Consiguração do Spring Security -->
+	
+	<sec:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
+	
+	<sec:http use-expressions="true" auto-config="true" >
+
+		<sec:intercept-url pattern="/pages/**" access="isAuthenticated()" />
+		
+		<sec:form-login login-page="/login.jsf" 
+			authentication-failure-url="/login.jsf" />
+		
+		<sec:logout logout-success-url="/login.jsf" invalidate-session="true" />	
+
+		<sec:access-denied-handler error-page="/semPermissao.jsf" />
+		
+		<sec:session-management session-fixation-protection="none">
+			<sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" 
+				expired-url="/login.jsf" />
+		</sec:session-management>
+		
+	</sec:http>
+
+	<sec:authentication-manager alias="authenticationManager" >
+		<sec:authentication-provider user-service-ref="userDetailsService" >
+			<!-- <sec:password-encoder hash="md5"/> -->
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+</beans>

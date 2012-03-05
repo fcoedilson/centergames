@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:messages autoUpdate="true" />
+			<div id="content">
+				<p:fieldset legend="Encerrar Locação">
+					
+					<h:panelGrid columns="4" >
+						<h:outputText value="Representante: *" />
+						<p:selectOneMenu value="#{locacaoBean.locacao.funcionario}" effect="fold"
+							editable="true" converter="simpleEntityConverter" 
+							required="true" requiredMessage="Preencha o campo representante">
+							<f:selectItem itemLabel="Selecione um representante" itemValue="" />
+							<f:selectItems value="#{locacaoBean.representantesComLocacao}" var="func"
+								itemLabel="#{func.id} - #{func.nome}" itemValue="#{func}"/>
+							<p:ajax event="change" update="locFuncRotas, inputlocFuncRotas"/>	
+						</p:selectOneMenu>
+						
+						<h:outputText id="inputlocFuncRotas" value="Rota de cobrança: *"/>
+						<p:selectOneMenu id="locFuncRotas" value="#{locacaoBean.locacao.rota}" effect="fold"
+							editable="true" converter="rotaConverter" valueChangeListener="#{locacaoBean.mesasLocadasRepresentantes}"
+							required="true" requiredMessage="Preencha o campo rota de cobrança">
+							<f:selectItem itemLabel="Selecione uma rota" itemValue="" />
+							<f:selectItems value="#{locacaoBean.locacao.funcionario.rotas}" var="rota"
+								itemLabel="#{rota.descricao}" itemValue="#{rota}"/>
+							<p:ajax event="change" update="panelMesas"/>	
+						</p:selectOneMenu>
+					</h:panelGrid>
+					
+					<p:panel header="Relação das mesas locadas">
+						<h:outputText value="Mesas Locadas: "/>
+						<h:panelGrid columns="6" >
+							<p:selectManyCheckbox id="panelMesas" value="#{locacaoBean.mesasSelecionadas}" converter="simpleEntityConverter">
+								<f:selectItems value="#{locacaoBean.mesasRepresentantes}" 
+										var="mesa" 
+										itemLabel="#{mesa.id} - #{mesa.tipoMesa.descricao}" 
+										itemValue="#{mesa}"/>
+							</p:selectManyCheckbox>
+						</h:panelGrid>
+					</p:panel>
+					
+					<h:outputText value="Data do encerramento: "/>
+					<p:calendar value="#{locacaoBean.locacao.dataEncerramento}" 
+										locale="pt" 
+										navigator="true"
+										showButtonPanel="true"
+										showOn="button"
+										required="true" 
+										requiredMessage="Preencha o campo data de encerramento">
+					</p:calendar>
+					
+					<p:commandButton action="#{locacaoBean.encerrar}" icon="ui-icon-calculator" value="Encerrar" ajax="false"/>
+					<p:commandButton action="#{locacaoBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+								value="Voltar" ajax="false" immediate="true"/>
+				</p:fieldset>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

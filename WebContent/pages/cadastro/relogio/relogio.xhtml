@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+  	  <h:form>
+  	  	  <p:messages autoUpdate="true"/>
+	  	  <div id="content">
+			<p:fieldset legend="Novo Relógio">
+				<h:panelGrid columns="2">
+				<h:outputText value="Numero: "/>
+				<p:inputText value="#{relogioBean.relogio.numero}" required="true" requiredMessage="Numero é obrigatório"/>
+				<h:outputText value="Leitura atual: "/>
+				<p:inputText value="#{relogioBean.relogio.leituraAtual}" required="true" 
+					requiredMessage="Leitura atual é obrigatório" >
+					<f:convertNumber integerOnly="true" />
+				</p:inputText>	
+				<p:commandButton action="#{relogioBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+				<p:commandButton action="#{relogioBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+					value="Voltar" ajax="false" immediate="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+	  </h:form>	
+	  </ui:define>
+</ui:composition>
+</html>

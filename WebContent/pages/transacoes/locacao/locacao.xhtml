@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:messages autoUpdate="true" />
+			<div id="content">
+				<p:fieldset legend="Locação">
+					
+						<h:panelGrid columns="4" >
+							<h:outputText value="Mesas disponiveis: *" />
+							<p:selectOneMenu value="#{locacaoBean.locacao.mesa}" effect="fold" style="size:" 
+								editable="true" converter="simpleEntityConverter" 
+								required="true" requiredMessage="Preencha o campo mesa">
+								<f:selectItem itemLabel="Selecione uma mesa" itemValue="" />
+								<f:selectItems value="#{mesaBean.lista}" var="mesa" 
+									itemLabel="#{mesa.codigo} - #{mesa.tipoMesa.descricao}" itemValue="#{mesa}"/>
+								<p:ajax event="change" update="locTpMesa, locRelogio"/>	
+							</p:selectOneMenu>
+							
+							<h:outputText  value="Relógio: "/>
+							<p:inputText id="locRelogio" value="#{locacaoBean.locacao.mesa.relogio.numero}" disabled="true"/>
+							
+							<h:outputText value="Valores: *" />
+							<p:selectOneMenu value="#{locacaoBean.locacao.valorFicha}" effect="fold"
+								editable="true" converter="simpleEntityConverter"
+								required="true" requiredMessage="Preencha o campo valores">
+								<f:selectItem itemLabel="Selecione um valor" itemValue="" />
+								<f:selectItems value="#{vlFichaBean.lista}" var="valorFicha"
+									itemLabel=" R$ #{valorFicha.valor}" itemValue="#{valorFicha}"/>
+								<p:ajax event="change" update="locValor"/>	
+							</p:selectOneMenu>
+							<h:outputText  value="Valor da ficha"/>
+							<p:inputText id="locValor" value="#{locacaoBean.locacao.valorFicha.valor}" disabled="true">
+								<f:convertNumber type="currency"/>
+							</p:inputText>
+							
+							<h:outputText value="Funcionário: *" />
+							<p:selectOneMenu value="#{locacaoBean.locacao.funcionario}" effect="fold"
+								editable="true" converter="simpleEntityConverter" 
+								required="true" requiredMessage="Preencha o campo representante">
+								<f:selectItem itemLabel="Selecione um representante" itemValue="" />
+								<f:selectItems value="#{funcBean.buscarRepresentantes}" var="func"
+									itemLabel="#{func.id} - #{func.nome}" itemValue="#{func}"/>
+								<p:ajax event="change" update="locFuncRotas, inputlocFuncRotas"/>	
+							</p:selectOneMenu>
+							
+							<h:outputText id="inputlocFuncRotas" value="Rota de cobrança: *"/>
+							<p:selectOneMenu id="locFuncRotas" value="#{locacaoBean.locacao.rota}" effect="fold"
+								editable="true" converter="rotaConverter"
+								required="true" requiredMessage="Preencha o campo rota de cobrança">
+								<f:selectItem itemLabel="Selecione uma rota" itemValue="" />
+								<f:selectItems value="#{locacaoBean.locacao.funcionario.rotas}" var="rota"
+									itemLabel="#{rota.descricao}" itemValue="#{rota}"/>
+							</p:selectOneMenu>
+							
+							<h:outputText value="Data da locação: *" />
+							<p:calendar value="#{locacaoBean.locacao.dataLocacao}" 
+										locale="pt" 
+										navigator="true"
+										showButtonPanel="true"
+										showOn="button"
+										required="true" requiredMessage="Preencha o campo data da locação">
+							</p:calendar>
+							
+							<h:outputText value="Cliente: " />
+							<p:selectOneMenu id="locCliente" value="#{locacaoBean.locacao.cliente}" effect="fold"
+								editable="true" converter="simpleEntityConverter"
+								required="true" requiredMessage="Preencha o campo cliente">
+								<f:selectItem itemLabel="Selecione um ..." itemValue="" />
+								<f:selectItems value="#{clienteBean.lista}" var="cliente"
+									itemLabel="#{cliente.nome}" itemValue="#{cliente}"/>
+								<p:ajax event="change" update="panelCli"/>	
+							</p:selectOneMenu>
+							<h:outputText value="Observações: " />
+							<p:inputText value="#{locacaoBean.locacao.observacoes}"/>
+							<h:outputText value="Lucro: " />
+							<p:inputText value="#{locacaoBean.locacao.lucro}" type="number">
+								<f:convertNumber type="number" maxFractionDigits="2" />
+							</p:inputText>
+							
+						</h:panelGrid>
+						
+						<p:panel id="panelCli" header="Informações do Cliente">
+							<h:panelGrid columns="4">
+								<h:outputText value="Endereço: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.endereco}" 
+									readonly="true" size="45"/>
+								<h:outputText value="Telefone: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.telefone}" 
+									readonly="true" size="20"/>
+								<h:outputText value="RG: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.rg}" 
+									readonly="true" size="20"/>
+								<h:outputText value="Orgão Expedidor: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.orgaoExpedidor}" 
+									readonly="true" size="20"/>
+								<h:outputText value="CPF: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.cpf}" 
+									readonly="true" size="20"/>							
+								<h:outputText value="CGC: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.cgc}" 
+									readonly="true" size="20"/>
+								<h:outputText value="Irregular: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.irregular}" 
+									readonly="true" size="20"/>		
+								<h:outputText value="Motivo da Irregularidade: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.motivoIrregularidade}" 
+									readonly="true" size="40"/>								
+								<h:outputText value="Observações: " />
+								<p:inputText value="#{locacaoBean.locacao.cliente.observacoes}" 
+									readonly="true" size="45"/>				
+							</h:panelGrid>
+						</p:panel>
+						<p:commandButton action="#{locacaoBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+						<p:commandButton action="#{locacaoBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+									value="Voltar" ajax="false" immediate="true"/>
+				</p:fieldset>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

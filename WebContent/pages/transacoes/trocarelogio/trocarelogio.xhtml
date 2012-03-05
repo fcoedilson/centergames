@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<div id="content">
+				<p:fieldset legend="Troca de relógio">
+					<h:panelGrid columns="2" >
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputText value="Mesas: " />
+							<p:selectOneMenu value="#{trocaBean.trocaRelogio.mesa}"
+								converter="simpleEntityConverter">
+								<f:selectItem itemValue="" itemLabel="Selecione uma mesa"/>
+								<f:selectItems value="#{trocaBean.mesas}" var="mesa" 
+									itemLabel="#{mesa.id} - #{mesa.tipoMesa.descricao}" itemValue="#{mesa}"/>
+								<p:ajax event="change" update="infoPanel"/>
+							</p:selectOneMenu>
+			            </h:panelGrid>
+			            <p:panel style="width:650px;">
+				            <h:panelGrid columns="4" cellpadding="5">
+				            	<h:outputText value="Novo relógio: " />
+				            	<p:selectOneMenu id="acRelogio" value="#{trocaBean.trocaRelogio.relogioNovo}" 
+											converter="simpleEntityConverter">
+									<f:selectItem itemValue="Selecione um relógio" itemLabel=""/>
+									<f:selectItems var="relogio" value="#{trocaBean.relogios}" 
+										itemLabel="#{relogio.id} - #{relogio.numero}" itemValue="#{relogio}"/>										
+					            </p:selectOneMenu>
+				            	<h:outputText value="Motivo: " />
+				            	<p:inputText value="#{trocaBean.trocaRelogio.motivo}"/>
+				            </h:panelGrid>
+			            </p:panel>
+			            <p:commandButton value="Mostrar informações da Mesa" update="infoPanel">
+			            	<f:setPropertyActionListener target="#{trocaBean.mesaSelecionada}" 
+			            			value="#{trocaBean.trocaRelogio.mesa}"/>
+			            </p:commandButton>
+					</h:panelGrid>
+					<p:panel id="infoPanel" header="Informações da Mesa">
+						<h:panelGrid columns="4">
+							<h:outputText value="Mesa: " />
+							<p:inputText value="#{trocaBean.mesaSelecionada.id}" readonly="true"/>
+							<h:outputText value="Relógio Atual: " />
+							<p:inputText value="#{trocaBean.mesaSelecionada.relogio.numero}" readonly="true"/>
+							<h:outputText value="Representante: " />
+							<p:inputText value="#{trocaBean.mesaSelecionada.locacao.funcionario.nome}" readonly="true"/>
+							<h:outputText value="Rota: " />
+							<p:inputText value="#{trocaBean.mesaSelecionada.locacao.rota.descricao}" readonly="true"/>
+							<h:outputText value="Rota: " />
+							<p:inputText value="#{trocaBean.mesaSelecionada.locacao.dataLocacao}" readonly="true"/>
+							<h:outputText value="Cliente: " />
+							<p:inputText value="#{trocaBean.mesaSelecionada.locacao.cliente.nome}" readonly="true"/>
+						</h:panelGrid>
+						<h:outputText value="Endereco: "/>
+							<p:inputText value="#{trocaBean.mesaSelecionada.locacao.cliente.endereco}" 
+								readonly="true" size="50"/>
+					</p:panel>
+					<br/>
+					<p:commandButton action="#{trocaBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+					<p:commandButton action="#{trocaBean.limpar}" icon="ui-icon-arrowreturn-1-w" 
+								value="Limpar" ajax="false" immediate="true"/>
+				</p:fieldset>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

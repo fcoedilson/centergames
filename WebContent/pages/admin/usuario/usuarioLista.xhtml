@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+	  	  <div id="content">
+	  	  <h:form>
+	  	  	<p:fieldset legend="Usuário">
+	  	  		<p:commandButton action="#{userBean.novo}" value="Novo" icon="ui-icon-plus" ajax="false" style="float:right;"/>
+		  	  	<p:dataTable id="tableuser" var="user" value="#{userBean.lista}" 
+		  	  		paginator="true" rows="25" rowIndexVar="index">
+		  	  		<p:column>  
+			            <f:facet name="header">Nº</f:facet>  
+			            <h:outputText value="#{index+1}" />  
+			        </p:column>  
+			        <p:column sortBy="#{user.username}">  
+			            <f:facet name="header">Nome</f:facet>  
+			            <h:outputText value="#{user.username}"/>  
+			        </p:column>
+			        <p:column sortBy="#{user.role.name}">  
+			            <f:facet name="header">Grupo</f:facet>  
+			            <h:outputText value="#{user.role.name}"/>  
+			        </p:column>
+			        <p:column style="width:40px;" headerText="Editar">
+			        	<p:commandButton action="#{userBean.editar}" icon="ui-icon-pencil" title="Clique para Editar" ajax="false">
+			        		<f:ajax event="click" execute="@form"></f:ajax>
+			        		<f:setPropertyActionListener value="#{user}" target="#{userBean.user}" />
+			        	</p:commandButton>
+			        </p:column>
+			        <p:column style="width:40px" headerText="Excluir">
+			        	<p:commandButton update="tableuser" action="#{userBean.excluir}" icon="ui-icon-trash" ajax="false">
+			        		<f:setPropertyActionListener value="#{user}" target="#{userBean.user}" />
+			        	</p:commandButton>	
+			        </p:column>
+			        
+			         <p:column style="width:40px" headerText="Ver">  
+		             	 <p:commandButton update="tableuser" icon="ui-icon-search" title="View">  
+		                     <f:setPropertyActionListener value="#{user}" target="#{userBean.user}" />  
+		                 </p:commandButton>  
+			        </p:column>  
+			        
+			    </p:dataTable>  
+		    </p:fieldset>
+		    </h:form>
+	  	  </div>
+  	  </ui:define>
+</ui:composition>
+</html>

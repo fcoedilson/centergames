@@ -1,0 +1,124 @@
+body{
+	width: 960px;
+	margin: 0 auto;
+	font-size: 12px;
+	height: 100%;
+	background: url("#{resource['images/degrade.jpg']}") repeat-x scroll 0 0 white;
+}
+
+#login 
+{
+	position:relative;
+}
+
+div#login.ui-state-hover
+{
+	border:none;
+	background: none;
+}
+
+#login img
+{
+	padding-left:100px;
+	padding-top: 100px;
+}
+
+#login form
+{
+	width: 250px;
+	position:absolute;
+	top: 90px;
+	left:280px;
+}
+
+#login form input[type=submit] 
+{
+	margin-top: 2px;
+	float:right;
+}
+
+#topo 
+{ 
+	padding: 5px;
+	border-top:3px solid #C00;
+	border-bottom:1px solid #C00;
+	position:relative;
+}
+
+#topo h1 
+{
+	font-weight:bold;
+	top: 0;
+	left: 260px;
+}
+
+#topo h2 
+{
+	font-weight: bold;
+	top: 35px;
+	left: 260px;	
+}
+
+#info
+{
+	margin-top: 1px;
+	padding: 2px;
+	background-color: #C00;
+	text-align:right;
+	text-transform: uppercase;
+	color:#FFF;
+}
+
+#info .usuario, #info .grupo{
+	font-weight: bolder;
+	color:#FF0;	
+}
+
+
+
+#info dl, #info dt, #info dd 
+{
+	display:inline;
+}
+
+#info dt 
+{
+	font-weight:bold;
+}
+
+#info dd
+{
+	margin-left: 2px;
+	margin-right: 10px;
+}
+select 
+{
+	text-transform:uppercase;
+	margin-left: 1em;
+	background:#f2f2f2;
+	border-width: 1px;
+	
+}
+
+input[type=submit], input[type=reset], input[type=button] 
+{
+	text-transform:uppercase;
+  	border-style: solid;
+    border-width: 1px;
+    background-position: #FFFFFF;
+	font: bold 0.8em Verdana, Geneva, sans-serif;
+    color: #C00;
+    background: #FFFF99;
+    padding: 2px 4px;
+    border-color: #E6B800;
+	margin: 3px 3px 3px 3px;
+	text-shadow: -1px 1px 0px #FFF;
+}
+
+#footer{
+	bottom: 0;
+	width: 920px;
+	position: absolute;
+	padding: 10px 20px;
+	border-top: 2px solid #C00;
+}

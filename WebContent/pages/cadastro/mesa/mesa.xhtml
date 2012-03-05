@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+  	  <h:form>
+	  	  <div id="content">
+			<p:fieldset legend="Nova Mesa">
+				<h:panelGrid columns="2">
+				<h:outputText value="Código: * "/>
+				<p:inputText value="#{mesaBean.mesa.codigo}" required="true" requiredMessage="Código é obrigatório"/>
+				<h:outputText value="Tipo da Mesa: * "/>
+				<p:selectOneMenu value="#{mesaBean.mesa.tipoMesa}" effect="fold" editable="true" converter="simpleEntityConverter"
+					required="true" requiredMessage="Tipo de mesa é obrigatório">  
+		            <f:selectItem itemLabel="Selecione um tipo" itemValue="" />  
+		            <f:selectItems value="#{tpMesaBean.lista}" var="tpMesa" itemLabel="#{tpMesa.descricao}" itemValue="#{tpMesa}"/>  
+		        </p:selectOneMenu> 
+		        <h:outputText value="Relógio: * "/>
+				<p:selectOneMenu value="#{mesaBean.mesa.relogio}" effect="fold" editable="true" converter="simpleEntityConverter"
+					required="true" requiredMessage="Relógio é obrigatório">  
+		            <f:selectItem itemLabel="Selecione um relógio" itemValue="" />  
+		            <f:selectItems value="#{mesaBean.relogiosDisponiveis}" var="relogio" itemLabel="#{relogio.numero}" itemValue="#{relogio}"/>  
+		        </p:selectOneMenu> 
+		        <h:outputText value="Inativa: " />
+		        <p:selectBooleanCheckbox value="#{mesaBean.mesa.inativa}" />
+				<h:outputText value="Motivo da inatividade: " />
+		        <p:inputTextarea id="inputareaMotivo" value="#{mesaBean.mesa.motivoInatividade}" rows="5" cols="30"/>
+				<h:outputText value="Observações: " />
+		        <p:inputTextarea id="inputareaObs" value="#{mesaBean.mesa.observacoes}" rows="5" cols="30"/>		         			          
+				<p:commandButton action="#{mesaBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+				<p:commandButton action="#{mesaBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+					value="Voltar" ajax="false" immediate="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+	  </h:form>	
+	  </ui:define>
+</ui:composition>
+</html>

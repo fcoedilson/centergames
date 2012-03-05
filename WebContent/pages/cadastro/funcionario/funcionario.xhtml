@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+  	  <h:form>
+	  	  <div id="content">
+			<p:fieldset legend="Novo Funcionário">
+				<h:panelGrid columns="2">
+				
+				<h:outputText value="Nome: " />
+		        <p:inputText value="#{funcBean.funcionario.nome}" size="60"/>
+		        
+		        <h:outputText value="Endereço: " />
+		        <p:inputText value="#{funcBean.funcionario.endereco}" size="60"/>
+		        
+		        <h:outputText value="Telefone: "/>
+		        <p:inputMask value="#{funcBean.funcionario.telefone}" mask="(999) 9999-9999"/>
+		        
+		        <h:outputText value="RG: " />
+				<p:inputMask value="#{funcBean.funcionario.rg}" mask="99999999999" maxlength="11"/>
+		        
+		        <h:outputText value="Orgao expedidor: " />
+				<p:inputMask value="#{funcBean.funcionario.orgaoExpedidor}" mask="aaa/aa"/>
+				
+				<h:outputText value="CPF: " />
+				<p:inputMask value="#{funcBean.funcionario.cpf}" mask="999.999.999-99" maxlength="11"/>
+				
+				<h:outputText value="Cargo: *"/>
+				<p:selectOneMenu value="#{funcBean.funcionario.cargo}" effect="fold" editable="true" converter="simpleEntityConverter">  
+		            <f:selectItem itemLabel="Selecione um cargo" itemValue="" />  
+		            <f:selectItems value="#{cargoBean.lista}" var="cargo" itemLabel="#{cargo.descricao}" itemValue="#{cargo}" />  
+		        </p:selectOneMenu> 
+		        
+		        <h:outputText value="Estado: *"/>
+				<p:selectOneMenu value="#{funcBean.estado}" effect="fade" converter="simpleEntityConverter"
+					required="true" requiredMessage="Estado é obrigatório">
+						<f:selectItem itemLabel="Selecione um estado" itemValue="" />  
+			            <f:selectItems value="#{estadoBean.lista}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado}"/>
+			            <p:ajax event="change" update="rotasEstado" />  
+			    </p:selectOneMenu>
+			                
+		        <h:outputText value="Rotas: "/>
+		        <p:selectManyMenu id="rotasEstado" value="#{funcBean.funcionario.rotas}" converter="simpleEntityConverter" style="height:100px;width:180px">  
+		           <f:selectItems value="#{funcBean.rotas}" var="rota" itemLabel="#{rota.descricao}" itemValue="#{rota}" />  
+    		    </p:selectManyMenu>
+    		    
+				<h:outputText value="Perc. de gratificação: " />
+				<p:inputText value="#{funcBean.funcionario.perctGratificacao}" >
+					<f:convertNumber/>
+				</p:inputText>
+		        
+		        <h:outputText value="Inativo: " />
+		        <p:selectBooleanCheckbox value="#{funcBean.funcionario.inativo}" />
+    		    
+    		    <h:outputText value="Motivo da inatividade: " />
+		        <p:inputTextarea id="inputareaMotivo" value="#{funcBean.funcionario.motivoInatividade}" rows="5" cols="30"/>
+		        
+				<h:outputText value="Observações: " />
+		        <p:inputTextarea id="inputareaObs" value="#{funcBean.funcionario.observacoes}" rows="5" cols="30"/>
+				
+				<p:commandButton action="#{funcBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+				<p:commandButton action="#{funcBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+					value="Voltar" ajax="false" immediate="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+	  </h:form>	
+	  </ui:define>
+</ui:composition>
+</html>

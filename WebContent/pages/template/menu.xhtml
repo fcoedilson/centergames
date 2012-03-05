@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui"
+  	  xmlns:sec="http://www.springframework.org/security/facelets/tags">
+  	  
+  	<div class="ui-widget ui-widget-header" id="topo">
+		<div id="logo">
+			<h1><h:outputText value="CENTER GAMES"/></h1>
+			<h2><h:outputText value="Jogos e Entretenimento"/></h2>
+		</div>
+	</div>  
+   	<div id="info">
+	    <dl>
+	      <dt>Usuário:</dt> 
+	      <dd><h:outputText value="#{authenticationService.usuarioLogado.username}" styleClass="usuario"/></dd>
+	      <dt>Grupo:</dt>
+	      <dd><h:outputText value="#{authenticationService.roleLogado}" styleClass="grupo"/></dd>
+	    </dl>
+	</div>
+	<div id="menu">
+		<h:form id="formMenu">
+			<p:menubar>  
+		        <p:submenu label="Transações" icon="ui-icon-document">  
+		            <p:menuitem value="Locações" url="#{pageContext.servletContext.contextPath}/pages/transacoes/locacao/locacaoLista.jsf" />
+		            <p:menuitem value="Acerto de cobrança" url="#{pageContext.servletContext.contextPath}/pages/transacoes/acerto/acerto.jsf"/>    
+		            <p:menuitem value="Troca de relógio"
+		            	rendered="#{controlBean.hasPermission('PERM_ADMIN', 'PERM_REPRESENTANTE', 'PERM_GERENTE')}" 
+		            	url="#{pageContext.servletContext.contextPath}/pages/transacoes/trocarelogio/trocarelogio.jsf" />
+		            <p:menuitem value="Troca da mesa" 
+		            	rendered="#{controlBean.hasPermission('PERM_ADMIN', 'PERM_GERENTE')}"/>
+		            <p:menuitem value="Conta arrecadadora"
+		            	rendered="#{controlBean.hasPermission('PERM_ADMIN', 'PERM_GERENTE')}"/>
+		            <p:menuitem value="Transferências" rendered="#{controlBean.hasPermission('PERM_ADMIN', 'PERM_GERENTE')}"/>	
+		        </p:submenu> 
+		  
+		        <p:submenu label="Relatórios" icon="ui-icon-document" 
+		        	rendered="#{controlBean.hasPermission('PERM_ADMIN', 
+		        										'PERM_REPRESENTANTE',
+		        										'PERM_GERENTE')}">  
+		            <p:menuitem value="Locações" url="#" icon="ui-icon-document" />  
+		            <p:menuitem value="Encerramento" url="#" icon="ui-icon-document" />  
+		        </p:submenu>  
+		  
+		        <p:submenu label="Cadastros" icon="ui-icon-pencil" 
+		        	rendered="#{controlBean.hasPermission('PERM_ADMIN', 
+		        										'PERM_REPRESENTANTE',
+		        										'PERM_GERENTE')}">  
+		            <p:menuitem value="Mesa" url="#{pageContext.servletContext.contextPath}/pages/cadastro/mesa/mesaLista.jsf" 
+		            	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Tipo de Mesa" url="#{pageContext.servletContext.contextPath}/pages/cadastro/tipoMesa/tpMesaLista.jsf" 
+		              	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Valor da Ficha" url="#{pageContext.servletContext.contextPath}/pages/cadastro/valorFicha/vlFichaLista.jsf" 
+		              	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Relógio" url="#{pageContext.servletContext.contextPath}/pages/cadastro/relogio/relogioLista.jsf" 
+		            	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Cliente" url="#{pageContext.servletContext.contextPath}/pages/cadastro/cliente/clienteLista.jsf" 
+		            	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Funcionário" url="#{pageContext.servletContext.contextPath}/pages/cadastro/funcionario/funcionarioLista.jsf" 
+		            	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Cargo" url="#{pageContext.servletContext.contextPath}/pages/cadastro/cargo/cargoLista.jsf"
+		            	icon="ui-icon-pencil"/>
+		            <p:menuitem value="Rota" url="#{pageContext.servletContext.contextPath}/pages/cadastro/rota/rotaLista.jsf"
+		            	icon="ui-icon-pencil" />
+		            <p:menuitem value="Estado" url="#{pageContext.servletContext.contextPath}/pages/cadastro/estado/estadoLista.jsf"
+		             	icon="ui-icon-pencil"/>  
+	             </p:submenu>  
+		  
+		        <p:submenu label="Administração" icon="ui-icon-gear"
+		        	rendered="#{controlBean.hasPermission('PERM_ADMIN')}">  
+	                <p:menuitem value="Usuários" url="#{pageContext.servletContext.contextPath}/pages/admin/usuario/usuarioLista.jsf"/>  
+	                <p:menuitem value="Grupos" url="#{pageContext.servletContext.contextPath}/pages/admin/grupo/grupoLista.jsf"/>
+	                <p:menuitem value="Permissões" url="#{pageContext.servletContext.contextPath}/pages/admin/permissao/permissaoLista.jsf"/>  
+		        </p:submenu>  
+		  		
+		  		
+		  		<p:menuitem value="Sair" icon="ui-icon-close" 
+		        		url="#{pageContext.servletContext.contextPath}/j_spring_security_logout"
+		        		ajax="false"/>  
+		        
+	    	</p:menubar>  
+    	</h:form>
+    	<p:spacer height="20"/>
+	</div>
+</ui:composition>	

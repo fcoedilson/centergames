@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+  	  <h:form id="formRota">
+  	  	  <p:messages autoUpdate="true"/>
+	  	  <div id="content">
+			<p:fieldset legend="Nova Rota">
+				<h:panelGrid columns="2">
+					<h:outputText value="Descrição: "/>
+					<p:inputText value="#{rotaBean.rota.descricao}" required="true" requiredMessage="Descrição é obrigatório"/>
+					
+					<h:outputText value="Estado: "/>
+					<p:selectOneMenu value="#{rotaBean.rota.estado}" effect="fade" converter="estadoConverter">  
+			            <f:selectItem itemLabel="Selecione um estado" itemValue="" />  
+			            <f:selectItems value="#{estadoBean.lista}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado}"/>  
+			        </p:selectOneMenu>
+					
+					<p:commandButton action="#{rotaBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+					<p:commandButton action="#{rotaBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+						value="Voltar" ajax="false" immediate="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+	  </h:form>
+	  </ui:define>
+</ui:composition>
+</html>

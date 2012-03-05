@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+  	  
+	  	  <div id="content">
+			<p:fieldset legend="Novo Usuário">
+				<h:form id="form1">
+					<h:panelGrid columns="4">
+						<h:outputText value="CPF do Funcionário: *"/>
+						<p:inputMask value="#{userBean.cpfFunc}" mask="999.999.999-99" maxlength="11" required="true" requiredMessage="Nome é obrigatório"/>
+						<p:commandButton action="#{userBean.pesquisarFunc}" icon="ui-icon-disk" value="Pesquisar" 
+							update="panelFunc, panelGridUsu" ajax="false"/>
+						<p:panel id="panelFunc">
+							<h:outputText value="Nome: "/>
+							<h:inputText value="#{userBean.nomeFunc}"/>
+						</p:panel>
+					</h:panelGrid>
+				</h:form>	
+				<h:form>
+				<h:panelGrid columns="2" id="panelGridUsu">
+					<h:outputText value="Nome: *"/>
+					<p:inputText value="#{userBean.user.username}" required="true" requiredMessage="Nome é obrigatório"
+						disabled="#{userBean.desabilitaCadastro}"/>
+			        <h:outputText value="Senha: *"/>
+			        <p:password value="#{userBean.user.password}" required="true" requiredMessage="Senha é obrigatório"
+			        	weakLabel="Fraco" goodLabel="Bom" strongLabel="Forte" feedback="true" match="pwd2"
+			        	disabled="#{userBean.desabilitaCadastro}"/>
+			       	<h:outputText value="Confirme a Senha: *"/> 	
+			        <p:password id="pwd2" value="#{userBean.user.password}" required="true" requiredMessage="Confirme a Senha é obrigatório"
+			        	feedback="false" disabled="#{userBean.desabilitaCadastro}"/>
+			        <h:outputText value="Grupo: *"/>
+					<p:selectOneMenu value="#{userBean.user.role}" effect="fade" converter="simpleEntityConverter"
+						required="true" requiredMessage="Grupo é obrigatório" disabled="#{userBean.desabilitaCadastro}">  
+				            <f:selectItem itemLabel="Selecione um grupo" itemValue="" />  
+				            <f:selectItems value="#{roleBean.lista}" var="role" itemLabel="#{role.name}" itemValue="#{role}"/>  
+				        </p:selectOneMenu>
+			        <p:commandButton action="#{userBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"
+			        	disabled="#{userBean.desabilitaCadastro}"/>
+					<p:commandButton action="#{userBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+						value="Voltar" ajax="false" immediate="true"/>
+				</h:panelGrid>
+				</h:form>	
+			</p:fieldset>
+		</div>
+	  
+	  </ui:define>
+</ui:composition>
+</html>

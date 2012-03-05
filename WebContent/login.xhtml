@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<h:head>
+	<title>Center Games</title>
+	<meta http-equiv="content-type" content="text/xhtml; charset=UTF-8" />
+	<link href="resources/css/estilo.css" type="text/css" rel="stylesheet" />
+</h:head>
+<h:body>
+<div id="main">
+	<div class="ui-widget ui-widget-header" id="topo">
+		<div id="logo">
+			<h1><h:outputText value="CENTER GAMES"/></h1>
+			<h2><h:outputText value="Jogos e Entretenimento"/></h2>
+		</div>
+	</div>  
+	<div id="login">
+		<h:form prependId="false">
+			<p:growl id="growlMessage" showDetail="true" />
+			<p:panel header="Entre com o seu login e senha"
+				style="width: 350px;margin: auto;">
+		
+				<h:panelGrid columns="3">
+		
+					<h:outputLabel for="userName" value="Usuário: " />
+					<p:inputText id="userName" value="#{loginBean.userName}" />
+					<h:message for="userName" errorClass="error" />
+		
+					<h:outputLabel for="password" value="Senha: " />
+					<p:password id="password" value="#{loginBean.password}"
+						feedback="false" />
+					<h:message for="password" errorClass="error" />
+		
+					<h:outputText value="" />
+					<p:commandButton type="submit" id="login" action="#{loginBean.login}"
+						value="Logar" update="growlMessage" ajax="false"/>
+				</h:panelGrid>
+		
+			</p:panel>
+		</h:form>
+	</div>
+	<div id="footer" class="ui-widget ui-widget-header " style="bottom: 0;	width: 920px; position: absolute; padding: 10px 20px; border-top: 2px solid #C00;">
+		<h:outputText styleClass="copyright" value="CenterGames - Jogos e Entretenimento"></h:outputText>
+		<h:outputText style="float: right;" value="Vesão 1.0"></h:outputText>
+	</div>    
+</div>	
+</h:body>
+</html>

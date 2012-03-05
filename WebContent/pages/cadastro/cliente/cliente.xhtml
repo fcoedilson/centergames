@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+  	  <h:form>
+  	  	  <p:messages autoUpdate="true"/>
+	  	  <div id="content">
+			<p:fieldset legend="Cliente">
+				<h:panelGrid columns="2">
+				
+				<h:outputText value="Nome: " />
+		        <p:inputText value="#{clienteBean.cliente.nome}"/>
+		        
+		        <h:outputText value="Endereço: " />
+		        <p:inputText value="#{clienteBean.cliente.endereco}"/>
+		        
+		        <h:outputText value="Telefone: "/>
+		        <p:inputMask value="#{clienteBean.cliente.telefone}" mask="(999) 9999-9999"/>
+		        
+		        <h:outputText value="RG: " />
+				<p:inputMask value="#{clienteBean.cliente.rg}" mask="99999999999" maxlength="11"/>
+				
+				<h:outputText value="Orgao expedidor: " />
+				<p:inputMask value="#{clienteBean.cliente.orgaoExpedidor}" mask="aaa/aa"/>
+				
+				<h:outputText value="CGC: " />
+				<p:inputMask value="#{clienteBean.cliente.cgc}" mask="9.999.999/9999-99"/>
+				
+				<h:outputText value="CPF: " />
+				<p:inputMask value="#{clienteBean.cliente.cpf}" mask="999.999.999-99" maxlength="11"/>
+				
+		        <h:outputText value="Irregular: " />
+		        <p:selectBooleanCheckbox value="#{clienteBean.cliente.irregular}" />
+    		    
+    		    <h:outputText value="Motivo da irregularidade: " />
+		        <p:inputTextarea id="inputareaMotivo" value="#{clienteBean.cliente.motivoIrregularidade}" rows="5" cols="30"/>
+		        
+				<h:outputText value="Observações: " />
+		        <p:inputTextarea id="inputareaObs" value="#{clienteBean.cliente.observacoes}" rows="5" cols="30"/>
+				
+				<p:commandButton action="#{clienteBean.salvar}" icon="ui-icon-disk" value="Salvar" ajax="false"/>
+				<p:commandButton action="#{clienteBean.voltar}" icon="ui-icon-arrowreturn-1-w" 
+					value="Voltar" ajax="false" immediate="true"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+	  </h:form>	
+	  </ui:define>
+</ui:composition>
+</html>

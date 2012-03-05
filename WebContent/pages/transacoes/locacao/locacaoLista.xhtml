@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+  	  xmlns:h="http://java.sun.com/jsf/html" 
+  	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/pages/template/template.xhtml">
+  	  <ui:define name="content">
+	  	  <div id="content">
+	  	  <h:form>
+	  	  	<p:fieldset legend="Locação">
+	  	  		<p:commandButton rendered="#{controlBean.hasPermission('PERM_ADMIN', 'PERM_REPRESENTANTE', 'PERM_GERENTE')}" 
+	  	  			 action="#{locacaoBean.prepareEncerrar}" value="Encerrar" icon="ui-icon-close" ajax="false" style="float:right;"/>
+	  	  		<p:commandButton action="#{locacaoBean.prepareSave}" value="Novo" icon="ui-icon-plus" ajax="false" style="float:right;"/>
+		  	  	<p:dataTable id="tablelocacao" var="locacao" value="#{locacaoBean.lista}" 
+		  	  		paginator="true" rows="25" rowIndexVar="index">
+		  	  		<p:column>  
+			            <f:facet name="header">Nº</f:facet>  
+			            <h:outputText value="#{index+1}" />  
+			        </p:column>  
+			        <p:column sortBy="#{locacao.mesa.tipoMesa.id}">  
+			            <f:facet name="header">Tipo de Mesa</f:facet>  
+			            <h:outputText value="#{locacao.mesa.tipoMesa.id} - #{locacao.mesa.tipoMesa.descricao}" />  
+			        </p:column>
+			        <p:column sortBy="#{locacao.valorFicha.valor}">  
+			            <f:facet name="header">Valor da ficha</f:facet>  
+			            <h:outputText value="#{locacao.valorFicha.valor}" />  
+			        </p:column>
+			        <p:column sortBy="#{locacao.funcionario.nome}">  
+			            <f:facet name="header">Representante</f:facet>  
+			            <h:outputText value="#{locacao.funcionario.nome}" />  
+			        </p:column>
+			        <p:column sortBy="#{locacao.dataLocacao}">  
+			            <f:facet name="header">Data da locação</f:facet>  
+			            <h:outputText value="#{locacao.dataLocacao}" >
+			            	<f:convertDateTime pattern="dd/MM/yyyy"/> 
+			            </h:outputText>  
+			        </p:column>
+			        <p:column sortBy="#{locacao.dataEncerramento}">  
+			            <f:facet name="header">Data do encerramento</f:facet>  
+			            <h:outputText value="#{locacao.dataEncerramento}" >
+			            	<f:convertDateTime pattern="dd/MM/yyyy"/> 
+			            </h:outputText>  
+			        </p:column>
+			                   
+			        <p:column style="width:40px;" headerText="Editar">
+			        	<p:commandButton action="#{locacaoBean.editar}" icon="ui-icon-pencil" title="Clique para Editar" ajax="false">
+			        		<f:ajax event="click" execute="@form"></f:ajax>
+			        		<f:setPropertyActionListener value="#{locacao}" target="#{locacaoBean.locacao}" />
+			        	</p:commandButton>
+			        </p:column>
+			        <p:column style="width:40px" headerText="Excluir">
+			        	<p:commandButton update="tablelocacao" action="#{locacaoBean.excluir}" icon="ui-icon-trash" ajax="false">
+			        		<f:setPropertyActionListener value="#{locacao}" target="#{locacaoBean.locacao}" />
+			        	</p:commandButton>	
+			        </p:column>
+			        
+			        <p:column style="width:40px" headerText="Ver">  
+		             	 <p:commandButton update="tablelocacao" icon="ui-icon-search" title="View">  
+		                     <f:setPropertyActionListener value="#{locacao}" target="#{locacaoBean.locacao}" />  
+		                 </p:commandButton>  
+			        </p:column>  
+			        
+			    </p:dataTable>  
+		    </p:fieldset>
+		    </h:form>
+	  	  </div>
+  	  </ui:define>
+</ui:composition>
+</html>
